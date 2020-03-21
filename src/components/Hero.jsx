@@ -16,7 +16,7 @@ function Hero(props) {
                 <div className="container">
                     <h1 className="title">Hoteles</h1>
                     <h2 className="subtitle">
-                        <strong>Hoteles</strong> desde el{' '}
+                        desde el{' '}
                         <strong>
                             {props.filters.dateFrom.toLocaleDateString(language, options)}
                         </strong>{' '}
