@@ -59,25 +59,19 @@ class Hotel extends React.Component {
                                 <FontAwesomeIcon
                                     icon={fas.faDollarSign}
                                     style={
-                                        this.props.hotel.price >= 2
-                                            ? { margin: '0 .125em' }
-                                            : { margin: '0 .125em', opacity: '.25' }
+                                        this.props.hotel.price >= 2? { margin: '0 .125em' }: { margin: '0 .125em', opacity: '.25' }
                                     }
                                 />
                                 <FontAwesomeIcon
                                     icon={fas.faDollarSign}
                                     style={
-                                        this.props.hotel.price >= 3
-                                            ? { margin: '0 .125em' }
-                                            : { margin: '0 .125em', opacity: '.25' }
+                                        this.props.hotel.price >= 3? { margin: '0 .125em' }: { margin: '0 .125em', opacity: '.25' }
                                     }
                                 />
                                 <FontAwesomeIcon
                                     icon={fas.faDollarSign}
                                     style={
-                                        this.props.hotel.price >= 4
-                                            ? { margin: '0 .125em' }
-                                            : { margin: '0 .125em', opacity: '.25' }
+                                        this.props.hotel.price >= 4? { margin: '0 .125em' }: { margin: '0 .125em', opacity: '.25' }
                                     }
                                 />
                             </span>
@@ -86,7 +80,6 @@ class Hotel extends React.Component {
                 </div>
             </div>
             <div className="card-footer">
-            
                 <button
                     onClick={this.alert_construction}
                     className="button is-medium is-fullwidth has-background-primary has-text-white has-text-weight-bold"
