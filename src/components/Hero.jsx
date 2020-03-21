@@ -14,7 +14,7 @@ function Hero(props) {
         <section className="hero is-primary">
             <div className="hero-body">
                 <div className="container">
-                    <h1 className="title">Bookify</h1>
+                    <h1 className="title">Hoteles</h1>
                     <h2 className="subtitle">
                         <strong>Hoteles</strong> desde el{' '}
                         <strong>
