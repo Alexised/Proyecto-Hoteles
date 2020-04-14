@@ -4,10 +4,11 @@ para el curso de Acamica
 
 ![hoteles](hoteles.PNG)
 
-
 ## Available Scripts
-
+## Installation
+### `npm install`
 In the project directory, you can run:
+
 
 ### `npm start`
 
