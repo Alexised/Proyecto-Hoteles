@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 //Moment Dependencies
-import moment from 'moment';
+import Moment from 'moment';
 
 function Hero(props) {
     return (
@@ -13,11 +13,11 @@ function Hero(props) {
                 <div className="container">
                     <h1 className="title">Hoteles</h1>
                     <h2 className="subtitle">
-                        {moment(props.filters.dateFrom).isValid()
-                            ? `desde el ${moment(props.filters.dateFrom).format('LL')}`
+                        {Moment(props.filters.dateFrom).isValid()
+                            ? `desde el ${Moment(props.filters.dateFrom).format('LL')}`
                             : ''}
-                        {moment(props.filters.dateTo).isValid()
-                            ? `, hasta el ${moment(props.filters.dateTo).format('LL')}`
+                        {Moment(props.filters.dateTo).isValid()
+                            ? `, hasta el ${Moment(props.filters.dateTo).format('LL')}`
                             : ''}
                         {props.filters.country != undefined &&
                             ` en ${props.filters.country}`}

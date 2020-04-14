@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 //FontAwesome Dependencies
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //Moment Dependencies
-import moment from 'moment';
+import Moment from 'moment';
 
 function dateChecker(date) {
-    if (moment(date).isValid()) {
-        return moment(date).format('YYYY-MM-DD');
+    if (Moment(date).isValid()) {
+        return Moment(date).format('YYYY-MM-DD');
     }
     return '';
 }
