@@ -39,17 +39,20 @@ class App extends React.Component {
         this.fetchData();
     }
 
-    // fetchData() {
-    //     fetch('https://wt-8a099f3e7c73b2d17f4e018b6cfd6131-0.sandbox.auth0-extend.com/acamica')
-    //         .then(function (response) {
-    //             return response.json();
-    //         })
-    //         .then(function (myJson) {
-    //             this.setState({
-    //                 hotels: myJson.hotelsData,
-    //             });
-    //         });
+
+    // async componentDidMount() {
+    //     try {
+    //         const response = await fetch();
+    //         if (!response.ok) {
+    //             throw Error(response.statusText);
+    //         }
+    //         const json = await response.json();
+    //         this.setState({ hotels: json, hotelsLoaded: true });
+    //         this.handleFilterChange(this.state.filters)
+    //     }
+    //     catch (error) { console.log(error); }
     // }
+
     fetchData() {
         this.timeoutId = setTimeout(() => {
             const data = require('../assets/scripts/data');
@@ -63,27 +66,27 @@ class App extends React.Component {
         clearTimeout(this.timeoutId);
     }
 
-    handleFilterChange(newFilters) {
+    handleFilterChange(Filters) {
         //I'm a lazy person, that's why I didnt use fetchData() here, but imagine everytime I call this method that would the case.
         const data = require('../assets/scripts/data');
         this.setState({
-            filters: newFilters,
+            filters: Filters,
             hotels: data.hotelsData.filter((hotel) => {
                 return (
                     //Until dateFrom or dateTo take a date value, ignore time availability
-                    ((newFilters.dateFrom === '' && newFilters.dateTo === '') ||
-                        (moment(newFilters.dateFrom) >= moment(hotel.availabilityFrom) &&
-                            moment(newFilters.dateTo) <= moment(hotel.availabilityTo))) &&
-                    (newFilters.country === undefined
+                    ((Filters.dateFrom === '' && Filters.dateTo === '') ||
+                        (moment(Filters.dateFrom) >= moment(hotel.availabilityFrom) &&
+                            moment(Filters.dateTo) <= moment(hotel.availabilityTo))) &&
+                    (Filters.country === undefined
                         ? true
-                        : hotel.country === newFilters.country) &&
-                    (newFilters.price === undefined
+                        : hotel.country === Filters.country) &&
+                    (Filters.price === undefined
                         ? true
-                        : hotel.price == newFilters.price) &&
-                    (newFilters.rooms === undefined
+                        : hotel.price == Filters.price) &&
+                    (Filters.rooms === undefined
                         ? true
-                        : hotel.rooms <= newFilters.rooms + 5 &&
-                        hotel.rooms > newFilters.rooms - 10)
+                        : hotel.rooms <= Filters.rooms + 5 &&
+                        hotel.rooms > Filters.rooms - 10)
                 );
             }),
         });

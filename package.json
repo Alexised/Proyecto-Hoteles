@@ -16,7 +16,8 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-icons": "^3.9.0",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "regenerator-runtime": "^0.13.5"
   },
   "scripts": {
     "build": "webpack --mode production",
