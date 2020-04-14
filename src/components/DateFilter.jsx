@@ -4,48 +4,44 @@ import PropTypes from 'prop-types';
 
 //FontAwesome Dependencies
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+//Moment Dependencies
+import moment from 'moment';
 
-class DateFilter extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleDateChange = this.handleDateChange.bind(this);
+function dateChecker(date) {
+    if (moment(date).isValid()) {
+        return moment(date).format('YYYY-MM-DD');
     }
-
-    handleDateChange(newDate) {
-        this.props.onDateChange(newDate);
-    }
-
-    formatDate(date) {
-        // Use the ISO 8601 format YYYY-MM-DDTHH:mm:ss.sssZ
-        return date.toISOString().split('T')[0];
-    }
-
-    render() {
-        return (
-            <div className="field">
-                <div className="control has-icons-left">
-                    <input
-                        className="input"
-                        type="date"
-                        //Trigger the handleOptionChange method in the Filters component
-                        onChange={this.handleDateChange}
-                        value={this.formatDate(this.props.date)}
-                        name={this.props.name}
-                        steps={1}
-                    />
-                    <span className="icon is-small is-left">
-                        <FontAwesomeIcon icon={this.props.icon} />
-                    </span>
-                </div>
-            </div>
-        );
-    }
+    return '';
 }
+function DateFilter(props) {
+    return (
+        <div className="field" >
+            <div className="control has-icons-left">
+                <input
+                    className="input"
+                    type="date"
+                    //Trigger the handleOptionChange method in the Filters component
+                    onChange={(newDate) => props.onDateChange(newDate)}
+                    value={dateChecker(props.date)}
+                    name={props.name}
+                    min={dateChecker(props.dateMin)}
+                    max={dateChecker(props.dateMax)}
+                />
+                <span className="icon is-small is-left">
+                    <FontAwesomeIcon icon={props.icon} />
+                </span>
+            </div>
+        </div>
+    );
+}
+
 DateFilter.propTypes = {
     icon: PropTypes.object.isRequired,
-    date: PropTypes.object.isRequired,
+    date: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    dateMin: PropTypes.object.isRequired,
+    dateMax: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     onDateChange: PropTypes.func.isRequired
 };
 
-export default  DateFilter;
+export default DateFilter;

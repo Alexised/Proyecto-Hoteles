@@ -5,7 +5,6 @@ import React from 'react';
 //Bulma Dependencies
 import 'bulma/css/bulma.css';
 
-//FontAwesome Dependencies
 
 //Components Dependencies
 
@@ -13,43 +12,80 @@ import Hero from '../components/Hero';
 import Filters from '../components/Filters';
 import Hotels from '../components/Hotels';
 
-import { today, hotelsData } from '../assets/scripts/data';
+//Moment Dependencies
+import moment from 'moment';
+import 'moment/locale/es';
+//Set locale to spanish
+moment.locale('es');
 
 class App extends React.Component {
     constructor() {
         super();
+        //Initialize state
         this.state = {
             filters: {
-                dateFrom: today, // Proviene del archivo data.js
-                dateTo: new Date(today.valueOf() + 86400000),
+                dateFrom: '',
+                dateTo: '',
                 country: undefined,
                 price: undefined,
-                rooms: undefined
+                rooms: undefined,
             },
-            hotels: [...hotelsData]
+            hotels: [],
         };
+        //Bind event handler
         this.handleFilterChange = this.handleFilterChange.bind(this);
     }
+    componentDidMount() {
+        this.fetchData();
+    }
 
-    handleFilterChange(payload) {
+    // fetchData() {
+    //     fetch('https://wt-8a099f3e7c73b2d17f4e018b6cfd6131-0.sandbox.auth0-extend.com/acamica')
+    //         .then(function (response) {
+    //             return response.json();
+    //         })
+    //         .then(function (myJson) {
+    //             this.setState({
+    //                 hotels: myJson.hotelsData,
+    //             });
+    //         });
+    // }
+    fetchData() {
+        this.timeoutId = setTimeout(() => {
+            const data = require('../assets/scripts/data');
+            this.setState({
+                hotels: data.hotelsData,
+            });
+        }, 1500);
+    }
 
+    componentWillUnmount() {
+        clearTimeout(this.timeoutId);
+    }
+
+    handleFilterChange(newFilters) {
+        //I'm a lazy person, that's why I didnt use fetchData() here, but imagine everytime I call this method that would the case.
+        const data = require('../assets/scripts/data');
         this.setState({
-            filters: payload,
-            //Passing a copy instead of a reference of the hotelsArray
-            hotels: [...hotelsData].filter(hotel => {
+            filters: newFilters,
+            hotels: data.hotelsData.filter((hotel) => {
                 return (
-                    payload.dateFrom.valueOf() >= hotel.availabilityFrom &&
-                    payload.dateTo.valueOf() <= hotel.availabilityTo &&
-                    (payload.country === undefined
+                    //Until dateFrom or dateTo take a date value, ignore time availability
+                    ((newFilters.dateFrom === '' && newFilters.dateTo === '') ||
+                        (moment(newFilters.dateFrom) >= moment(hotel.availabilityFrom) &&
+                            moment(newFilters.dateTo) <= moment(hotel.availabilityTo))) &&
+                    (newFilters.country === undefined
                         ? true
-                        : hotel.country === payload.country) &&
-                    (payload.price === undefined ? true : hotel.price == payload.price) &&
-                    (payload.rooms === undefined
+                        : hotel.country === newFilters.country) &&
+                    (newFilters.price === undefined
                         ? true
-                        : hotel.rooms <= payload.rooms + 5 &&
-                        hotel.rooms > payload.rooms - 10)
+                        : hotel.price == newFilters.price) &&
+                    (newFilters.rooms === undefined
+                        ? true
+                        : hotel.rooms <= newFilters.rooms + 5 &&
+                        hotel.rooms > newFilters.rooms - 10)
                 );
-            })
+            }),
         });
     }
 

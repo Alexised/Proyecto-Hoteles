@@ -55,4 +55,4 @@ OptionsFilter.propTypes = {
     name: PropTypes.string.isRequired
 };
 
-export default  OptionsFilter;
+export default OptionsFilter;

@@ -1,4 +1,3 @@
-
 // Definimos los datos estáticos que nuestra aplicación utilizará para funcionar.
 // En una aplicación convencional estos datos provendrían desde un back-end pero a los fines de este ejercicio utilizaremos variables pre-definidas.
 // Utilizamos fechas dinámicas para que la aplicación siempre muestre un rango de días entre la fecha actual y el futuro.

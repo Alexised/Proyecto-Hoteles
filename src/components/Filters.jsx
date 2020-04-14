@@ -8,8 +8,9 @@ import OptionsFilter from './OptionsFilter';
 
 //FontAwesome Dependencies
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
- class Filters extends React.Component {
+class Filters extends React.Component {
     constructor(props) {
         super(props);
         this.handleOptionChange = this.handleOptionChange.bind(this);
@@ -17,30 +18,26 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
     }
 
     handleOptionChange(newOption) {
-        let payload = this.props.filters;
-        payload[newOption.target.name] =
-            //If value=undefined then option takes value=textContent
-            newOption.target.value === '' ? undefined : newOption.target.value;
-
-        this.props.onFilterChange(payload);
+        this.props.onFilterChange({
+            ...this.props.filters,
+            [newOption.target.name]:
+                newOption.target.value === '' ? undefined : newOption.target.value
+        });
     }
 
     handleDateChange(newDate) {
-        let payload = this.props.filters;
-
-        //If dateTo is greater than dateFrom don't change the state
         if (
             newDate.target.name === 'dateTo' &&
-            Date.parse(newDate.target.value) < this.props.filters.dateFrom
+            moment(newDate.target.value) <= moment(this.props.filters.dateFrom)
         ) {
-            this.props.onFilterChange(payload);
-        } else {
-            payload[newDate.target.name] = new Date(
-                newDate.target.value.concat('', 'T00:00:00')
-            );
-
-            this.props.onFilterChange(payload);
+            return;
         }
+        this.props.onFilterChange({
+            ...this.props.filters,
+            [newDate.target.name]: moment(newDate.target.value).isValid()
+                ? moment(newDate.target.value)
+                : ''
+        });
     }
 
     render() {
@@ -52,6 +49,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
                         icon={fas.faSignInAlt}
                         onDateChange={this.handleDateChange}
                         name={'dateFrom'}
+                        dateMin={moment()}
+                        dateMax={moment(this.props.filters.dateTo).subtract(1, 'days')}
                     />
                 </div>
                 <div className="navbar-item">
@@ -60,6 +59,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
                         icon={fas.faSignOutAlt}
                         onDateChange={this.handleDateChange}
                         name={'dateTo'}
+                        dateMin={moment(this.props.filters.dateFrom).add(1, 'days')}
+                        dateMax={moment().add(41, 'days')}
                     />
                 </div>
                 <div className="navbar-item">
@@ -115,5 +116,4 @@ Filters.propTypes = {
     filters: PropTypes.object.isRequired,
     onFilterChange: PropTypes.func.isRequired
 };
-
 export default Filters;
